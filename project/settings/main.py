@@ -50,9 +50,9 @@ TEMPLATES = [
 DATABASES = {
     'default': {
         'ENGINE': 'django.contrib.gis.db.backends.postgis',
-        'NAME': 'partcipatory_mapping',
-        'USER': 'partcipatory_mapping',
-        'PASSWORD': '*partcipatory_mapping*',
+        'NAME': 'pmapping',
+        'USER': 'pmapping',
+        'PASSWORD': '@pmapping#',
         'CONN_MAX_AGE': 60,
         'HOST': '127.0.0.1',
         'PORT': '5432',

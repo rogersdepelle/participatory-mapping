@@ -2,7 +2,7 @@ from .main import *
 
 DEBUG = False
 
-ALLOWED_HOSTS = ['174.138.37.179']
+ALLOWED_HOSTS = ['mapacomunitario.ga']
 
 AUTH_PASSWORD_VALIDATORS = [
     {
