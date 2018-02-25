@@ -3,4 +3,7 @@
 *.pyc
 *.sqlite3
 
+*/migrations/*
+!*/migrations/__init__.py
+project/static/CACHE/
 secret_key.txt
