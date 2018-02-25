@@ -2,7 +2,7 @@ from .main import *
 
 DEBUG = False
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['174.138.37.179']
 
 AUTH_PASSWORD_VALIDATORS = [
     {
