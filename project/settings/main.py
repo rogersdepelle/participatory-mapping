@@ -3,9 +3,24 @@ import random
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-SECRET_KEY = ''.join(
-    [random.SystemRandom().choice('abcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*(-_=+)') for i in range(50)]
-)
+
+try:
+    with open(os.path.join(BASE_DIR, 'secret_key.txt'), 'r') as f:
+        SECRET_KEY = f.read().strip()
+except IOError:
+    try:
+        import random
+        SECRET_KEY = ''.join(
+            [random.SystemRandom().choice('abcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*(-_=+)') for i in range(50)]
+        )
+        SECRECT_FILE = open(os.path.join(BASE_DIR, 'secret_key.txt'), 'w')
+        SECRECT_FILE.write(SECRET_KEY)
+        SECRECT_FILE.close()
+    except IOError:
+        Exception(
+            'Please create a %s file with random characters '
+            'to generate your secret key!' % 'secret_key.txt'
+        )
 
 INSTALLED_APPS = [
     'django.contrib.admin',
