@@ -7,10 +7,9 @@
           type="text/javascript"></script>
 </head>
 <body>
-  <div id="map" style="width: 500px; height: 400px;"></div>
-  <p>{{ points }}</p>
+  <div id="map" style="width: 800; height: 600px;"></div>
   <script type="text/javascript">
-    var locations = {{ points }}
+    var locations = {{ points|safe }}
 
     var map = new google.maps.Map(document.getElementById('map'), {
       zoom: 13,
@@ -28,7 +27,6 @@
         map: map
       });
 
-      locations[i][0] += '';
       google.maps.event.addListener(marker, 'click', (function(marker, i) {
         return function() {
           infowindow.setContent(locations[i][0]);
