@@ -7,9 +7,12 @@
           type="text/javascript"></script>
 </head>
 <body>
+  <h3>Mapa: {{ mapa.name }} - Bairro: {{ mapa.neighborhood.name }}</h3>
+  <a href="/">Voltar</a><br><br>
   <div id="map" style="width: 800; height: 600px;"></div>
   <script type="text/javascript">
     var locations = {{ points|safe }}
+    var symbols = {{ symbols|safe }}
 
     var map = new google.maps.Map(document.getElementById('map'), {
       zoom: 13,
@@ -21,9 +24,20 @@
 
     var marker, i;
 
+    icons = new Array();
+
+    for (i = 0; i < symbols.length; i++){
+        icons[symbols[i][0]] = {
+          url: symbols[i][1], // url
+          scaledSize: new google.maps.Size(25, 25), // scaled size
+        };
+    }
+
+
     for (i = 0; i < locations.length; i++) {
       marker = new google.maps.Marker({
         position: new google.maps.LatLng(locations[i][1], locations[i][2]),
+        icon: icons[locations[i][0]],
         map: map
       });
 
@@ -35,5 +49,6 @@
       })(marker, i));
     }
   </script>
+
 </body>
 </html>

@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.gis.db import models as gis_models
+from django.urls import reverse
 
 
 class Neighborhood(models.Model):
@@ -33,6 +34,9 @@ class ParticipatoryMap(models.Model):
         on_delete=models.CASCADE,
         verbose_name='Bairro'
     )
+
+    def get_absolute_url(self):
+        return reverse('pmap_detail_view', kwargs={'pk':str(self.id)})
 
     def __str__(self):
         return self.name
