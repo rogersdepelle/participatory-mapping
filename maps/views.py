@@ -12,6 +12,8 @@ class ParticipatoryMapDetailView(FormMixin, DetailView):
     model = ParticipatoryMap
     template_name = "home.html"
     form_class = FilterMapForm
+    kind = None
+    risk_kind = None
 
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
