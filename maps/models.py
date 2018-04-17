@@ -3,6 +3,19 @@ from django.contrib.gis.db import models as gis_models
 from django.urls import reverse
 
 
+CHOICES = (
+    (1, 'Infraestrutura'),
+    (2, 'SCO'),
+    (3, 'Riscos da Comunidade'),
+)
+
+RISK_CHOICES = (
+    (1, 'Geológicos, Hidrológicos e Meteorológicos'),
+    (2, 'Biológicos'),
+    (3, 'Sociais'),
+    (4, 'Tecnológicos'),
+)
+
 class Neighborhood(models.Model):
 
     class Meta:
@@ -47,19 +60,6 @@ class Symbol(models.Model):
     class Meta:
         verbose_name = "Símbolo"
         verbose_name_plural = "Símbolos"
-
-    CHOICES = (
-        (1, 'Infraestrutura'),
-        (2, 'SCO'),
-        (3, 'Riscos da Comunidade'),
-    )
-
-    RISK_CHOICES = (
-        (1, 'Geológicos, Hidrológicos e Meteorológicos'),
-        (2, 'Biológicos'),
-        (3, 'Sociais'),
-        (4, 'Tecnológicos'),
-    )
 
     name = models.CharField(max_length=45, verbose_name='Nome')
     kind = models.IntegerField(verbose_name='Tipo', choices=CHOICES, blank=True, null=True)
