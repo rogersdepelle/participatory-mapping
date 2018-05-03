@@ -95,7 +95,7 @@ APPEND_SLASH = True
 
 MAP_WIDGETS = {
     "GooglePointFieldWidget": (
-        ("zoom", 15),
+        ("zoom", 13),
         ("mapCenterLocationName", 'Campinas'),
     ),
     "GOOGLE_MAP_API_KEY": "AIzaSyDJD1wjnXh94Zcyl9Rz9Vlu50zuSTUSbw0"
