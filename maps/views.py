@@ -1,40 +1,33 @@
 from django.shortcuts import render
-from django.views.generic import ListView, DetailView
-from django.views.generic.edit import FormMixin
+from django.views.generic.edit import FormView
 from django.conf import settings
 from django.urls import reverse
 
-from .models import Point, ParticipatoryMap, Symbol
+from .models import Neighborhood, Point, Symbol
 from .forms import FilterMapForm
 
 
-class ParticipatoryMapDetailView(FormMixin, DetailView):
-    model = ParticipatoryMap
+class HomeView(FormView):
     template_name = "home.html"
     form_class = FilterMapForm
-    kind = None
-    risk_kind = None
-
-    def post(self, request, *args, **kwargs):
-        self.object = self.get_object()
-        form = self.get_form()
-        if form.is_valid():
-            return self.form_valid(form)
-        else:
-            return self.form_invalid(form)
+    kinds = None
+    risk_kinds = None
+    maps = None
+    neighborhoods = None
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        pmap = self.get_object()
-        context['mapa'] = pmap
-        context['map'] = pmap.neighborhood.location.coords
+        points = Point.objects.all()
 
-        points = Point.objects.filter(pmap=pmap)
-        if self.kind:
-            points = points.filter(symbol__kind=self.kind)
-        if self.risk_kind:
-            points = points.filter(symbol__risk_kind=self.risk_kind)
+        if self.neighborhoods:
+            points = points.filter(pmap__neighborhood__in=self.neighborhoods)
+        if self.maps:
+            points = points.filter(pmap__in=maps)
+        if self.kinds:
+            points = points.filter(symbol__kind__in=self.kinds)
+        if self.risk_kinds:
+            points = points.filter(symbol__risk_kind__in=self.risk_kinds)
 
         context['points'] = [[p.symbol.name, p.location.coords[1], p.location.coords[0], p.id] for p in points]
         context['api_key'] = settings.MAP_WIDGETS['GOOGLE_MAP_API_KEY']
@@ -43,11 +36,8 @@ class ParticipatoryMapDetailView(FormMixin, DetailView):
         return context
 
     def form_valid(self, form):
-        self.kind = form.cleaned_data['kind']
-        self.risk_kind = form.cleaned_data['risk_kind']
+        self.kinds = form.cleaned_data['kind']
+        self.risk_kinds = form.cleaned_data['risk_kind']
+        self.maps = form.cleaned_data['maps']
+        self.neighborhoods = form.cleaned_data['neighborhood']
         return self.render_to_response(self.get_context_data(form=form))
-
-
-class ParticipatoryMapsListView(ListView):
-    model = ParticipatoryMap
-    template_name = 'pmap-list-view.html'

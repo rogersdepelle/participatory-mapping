@@ -1,21 +1,46 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
-  <title>Google Maps Multiple Markers</title>
-  <script src="http://maps.google.com/maps/api/js?key={{ api_key }}"
-          type="text/javascript"></script>
-</head>
-<body>
-  <h3>Mapa: {{ mapa.name }} - Bairro: {{ mapa.neighborhood.name }}</h3>
-  <a href="/">Voltar</a>
-  <form method="POST">
-    {{ form }}
-    <input type="submit" value="Filtrar">
-  </form>
-  <br><br>
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-  <div id="map" style="width: 800; height: 600px;"></div>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+
+    <script src="http://maps.google.com/maps/api/js?key={{ api_key }}" type="text/javascript"></script>
+
+    <title>Mapa comunintário</title>
+  </head>
+  <body>
+    <div  class="container-fluid">
+      <div class="row" style="padding-top: 10px;">
+        <div class="col-md-3">
+          <h3>Mapa comunintário</h3>
+          <form method="POST" class="form">
+            {% csrf_token %}
+            {{ form }}
+            <div style="padding-top: 10px;">
+              <input type="submit" class="btn btn-primary" value="Filtrar">
+            </div>
+          </form>
+        </div>
+        <div class="col-md-9" style="padding-left: 20px;">
+          {% if points %}
+            <div id="map" style="position: absolute; width: 95%; height: 600px;"></div>
+          {% else %}
+            <p>Nenhum ponto encontrado</p>
+          {% endif %}
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
 
   <script type="text/javascript">
     var locations = {{ points|safe }}
@@ -23,7 +48,7 @@
 
     var map = new google.maps.Map(document.getElementById('map'), {
       zoom: 13,
-      center: new google.maps.LatLng({{ map.1 }}, {{ map.0 }}),
+      center: new google.maps.LatLng(locations[0][1], locations[0][2]), // TODO fix center
       mapTypeId: google.maps.MapTypeId.ROADMAP
     });
 
@@ -39,7 +64,6 @@
           scaledSize: new google.maps.Size(25, 25), // scaled size
         };
     }
-
 
     for (i = 0; i < locations.length; i++) {
       marker = new google.maps.Marker({
@@ -57,5 +81,5 @@
     }
   </script>
 
-</body>
+  </body>
 </html>
