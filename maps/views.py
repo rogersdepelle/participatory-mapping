@@ -23,7 +23,7 @@ class HomeView(FormView):
         if self.neighborhoods:
             points = points.filter(pmap__neighborhood__in=self.neighborhoods)
         if self.maps:
-            points = points.filter(pmap__in=maps)
+            points = points.filter(pmap__in=self.maps)
         if self.kinds:
             points = points.filter(symbol__kind__in=self.kinds)
         if self.risk_kinds:
