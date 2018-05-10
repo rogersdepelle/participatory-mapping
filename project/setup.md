@@ -3,7 +3,7 @@
 ### Basic packages
 ```
 sudo apt-get update && sudo apt-get -y upgrade
-apt-get install htop python3-pip python3-dev python3-pip libpq-dev nginx binutils libproj-dev gdal-bin postgresql postgresql-contrib postgresql-9.5-postgis-scripts
+apt-get install htop python3-pip python3-dev python3-pip libpq-dev nginx binutils libproj-dev gdal-bin postgresql postgresql-contrib postgresql-10-postgis-2.4 postgresql-10-postgis-2.4-scripts postgresql-10-postgis-scripts
 ```
 
 ### PostgreSQL

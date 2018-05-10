@@ -16,24 +16,98 @@
     <div  class="container-fluid">
       <div class="row" style="padding-top: 10px;">
         <div class="col-md-3">
-          <h3>Mapa comunintário</h3>
+          <h4>Mapa comunintário</h4>
           <form method="POST" class="form">
             {% csrf_token %}
             {{ form }}
             <div style="padding-top: 10px;">
+              <button type="button" class="btn btn-default" data-toggle="modal" data-target="#data">
+                Outros Dados
+              </button>
               <input type="submit" class="btn btn-primary" value="Filtrar">
             </div>
           </form>
         </div>
         <div class="col-md-9" style="padding-left: 20px;">
           {% if points %}
-            <div id="map" style="position: absolute; width: 95%; height: 600px;"></div>
+            <div id="map" style="position: absolute; width: 95%; height: 540px;"></div>
           {% else %}
             <p>Nenhum ponto encontrado</p>
           {% endif %}
+          <p align="center" style="padding-top: 550px;">
+            <a data-toggle="modal" href="!#" data-target="#project">
+              Sobre o Projeto
+            </a>
+          </p>
         </div>
       </div>
 
+    </div>
+
+    <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" id="data">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Sobre o Projeto</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <table class="table">
+              <tr>
+                <th>Mapa</th><th>Idosos</th><th>Gestantes</th><th>P.N.E</th><th>Jovens</th><th>Crianças</th><th>Animais de Estimação</th>
+              </tr>
+              <tr>
+                {% for m in maps %}
+                  <td>{{ m.name }}</td>
+                  <td>{{ m.elderies }}</td>
+                  <td>{{ m.pregnant_womans }}</td>
+                  <td>{{ m.physically_incapacitated }}</td>
+                  <td>{{ m.babies }}</td>
+                  <td>{{ m.youngs }}</td>
+                  <td>{{ m.pets }}</td>
+                {% endfor %}
+              </tr>
+            </table>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" id="project">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Sobre o Projeto</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <p>
+              Código fonte disponível no
+              <a href="https://github.com/rogersdepelle/participatory-mapping" target="_blank">Github</a>
+            </p>
+            <p>
+              <b>Cassiano Sampaio Discovi</b><br>
+              Mestrando em Engenharia Civil - Unicamp<br>
+              <a href="http://lattes.cnpq.br/3325434953885211" target="_blank">Currículo Lattes</a>
+            </p>
+            <p>
+              <b>Rogers Prates de Pelle</b><br>
+              Mestrando em Ciência da COmpuatação - UFRS<br>
+              <a href=" http://lattes.cnpq.br/7518843509684417" target="_blank">Currículo Lattes</a>
+            </p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+          </div>
+        </div>
+      </div>
     </div>
 
     <!-- Optional JavaScript -->
@@ -66,6 +140,22 @@
     }
 
     for (i = 0; i < locations.length; i++) {
+
+      if (locations[i][3] > 0){
+        center = {lat: locations[i][1], lng: locations[i][2]};
+        color = locations[i][4];
+        var cityCircle = new google.maps.Circle({
+            strokeColor: color,
+            strokeOpacity: 0.5,
+            strokeWeight: 1,
+            fillColor: color,
+            fillOpacity: 0.2,
+            map: map,
+            center: center,
+            radius: locations[i][3],
+          });
+      }
+
       marker = new google.maps.Marker({
         position: new google.maps.LatLng(locations[i][1], locations[i][2]),
         icon: icons[locations[i][0]],
