@@ -29,7 +29,7 @@ class HomeView(FormView):
         if self.risk_kinds:
             points = points.filter(symbol__risk_kind__in=self.risk_kinds)
 
-        context['maps'] = ParticipatoryMap.objects.all()
+        context['maps'] = ParticipatoryMap.objects.all().order_by('name')
         context['points'] = [[p.symbol.name, p.location.coords[1], p.location.coords[0], p.radius, colors[p.symbol.kind]] for p in points]
         context['api_key'] = settings.MAP_WIDGETS['GOOGLE_MAP_API_KEY']
         context['symbols'] = [[s.name, s.icon.url] for s in Symbol.objects.all()]

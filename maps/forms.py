@@ -10,19 +10,19 @@ class FilterMapForm(forms.  Form):
         required=False,
         widget=forms.SelectMultiple(attrs={'class': 'form-control'}),
         choices=N_CHOICES,
-        label='Bairro',
+        label='Nome da Comunidade',
     )
     maps = forms.MultipleChoiceField(
         required=False,
         widget=forms.SelectMultiple(attrs={'class': 'form-control'}),
         choices=MAP_CHOICES,
-        label='Mapa',
+        label='Autores do Mapeamento',
     )
     kind = forms.MultipleChoiceField(
         required=False,
         widget=forms.SelectMultiple(attrs={'class': 'form-control'}),
         choices=CHOICES,
-        label='Tipo',
+        label='Mapas',
     )
     risk_kind = forms.MultipleChoiceField(
         required=False,
