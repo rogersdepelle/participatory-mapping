@@ -10,13 +10,14 @@
 
     <script src="http://maps.google.com/maps/api/js?key={{ api_key }}" type="text/javascript"></script>
 
-    <title>Mapa comunintário</title>
+    <title>Dias Melhores - Participatory Mapping</title>
   </head>
   <body>
     <div  class="container-fluid">
       <div class="row" style="padding-top: 10px;">
         <div class="col-md-3">
-          <h4>Mapa comunintário</h4>
+          <h3 align="center">Dias Melhores</h3>
+          <h4 align="center">Participatory Mapping</h4>
           <form method="POST" class="form">
             {% csrf_token %}
             {{ form }}

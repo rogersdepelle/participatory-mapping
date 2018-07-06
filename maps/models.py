@@ -4,9 +4,9 @@ from django.urls import reverse
 
 
 CHOICES = (
-    (1, 'Infraestrutura'),
-    (2, 'SCO'),
-    (3, 'Riscos da Comunidade'),
+    (1, 'Capacidades/Infraestrutura'),
+    (3, 'Ameaças/Vulnerabilidades'),
+    (2, 'Elementos do SCO'),
 )
 
 RISK_CHOICES = (
@@ -32,20 +32,21 @@ class Neighborhood(models.Model):
 class ParticipatoryMap(models.Model):
 
     class Meta:
-        verbose_name = "Mapa Comunitário"
-        verbose_name_plural = "Mapas Comunitários"
+        verbose_name = "Autor do Mapa"
+        verbose_name_plural = "Autores Mapa"
 
     name = models.CharField(max_length=45, verbose_name='Nome')
-    elderies = models.PositiveIntegerField(default=0)
-    pregnant_womans = models.PositiveIntegerField(default=0)
-    physically_incapacitated = models.PositiveIntegerField(default=0)
-    babies = models.PositiveIntegerField(default=0)
-    youngs = models.PositiveIntegerField(default=0)
-    pets = models.PositiveIntegerField(default=0)
+    elderies = models.PositiveIntegerField(default=0, verbose_name='Idosos')
+    pregnant_womans = models.PositiveIntegerField(default=0, verbose_name='Mulheres grávidas')
+    physically_incapacitated = models.PositiveIntegerField(default=0, 'Portadores de necessidades especiais')
+    babies = models.PositiveIntegerField(default=0, 'Crianças de colo')
+    youngs = models.PositiveIntegerField(default=0, 'Jovens')
+    pets = models.PositiveIntegerField(default=0, 'Animais de estimação')
+    animal = models.PositiveIntegerField(default=0, 'Animais de maior porte')
     neighborhood = models.ForeignKey(
         Neighborhood,
         on_delete=models.CASCADE,
-        verbose_name='Bairro'
+        verbose_name='Autor do Mapa'
     )
 
     def get_absolute_url(self):
