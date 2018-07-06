@@ -36,12 +36,12 @@ class ParticipatoryMap(models.Model):
         verbose_name_plural = "Mapas Comunitários"
 
     name = models.CharField(max_length=45, verbose_name='Nome')
-    elderies = models.IntegerField(default=0)
-    pregnant_womans = models.IntegerField(default=0)
-    physically_incapacitated = models.IntegerField(default=0)
-    babies = models.IntegerField(default=0)
-    youngs = models.IntegerField(default=0)
-    pets = models.IntegerField(default=0)
+    elderies = models.PositiveIntegerField(default=0)
+    pregnant_womans = models.PositiveIntegerField(default=0)
+    physically_incapacitated = models.PositiveIntegerField(default=0)
+    babies = models.PositiveIntegerField(default=0)
+    youngs = models.PositiveIntegerField(default=0)
+    pets = models.PositiveIntegerField(default=0)
     neighborhood = models.ForeignKey(
         Neighborhood,
         on_delete=models.CASCADE,
@@ -87,6 +87,7 @@ class Point(models.Model):
         verbose_name='Símbolo'
     )
 
+    radius = models.PositiveIntegerField(default=0, verbose_name='Raio em metros', help_text='deixar 0 para desenhar apenas um ponto')
     location = gis_models.PointField()
 
     def __str__(self):

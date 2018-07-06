@@ -3,7 +3,7 @@ from django.views.generic.edit import FormView
 from django.conf import settings
 from django.urls import reverse
 
-from .models import Neighborhood, Point, Symbol
+from .models import Neighborhood, Point, Symbol, ParticipatoryMap
 from .forms import FilterMapForm
 
 
@@ -17,19 +17,20 @@ class HomeView(FormView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-
+        colors = ['#000', '#0000FF', '#00FF00', '#FF0000']
         points = Point.objects.all()
 
         if self.neighborhoods:
             points = points.filter(pmap__neighborhood__in=self.neighborhoods)
         if self.maps:
-            points = points.filter(pmap__in=maps)
+            points = points.filter(pmap__in=self.maps)
         if self.kinds:
             points = points.filter(symbol__kind__in=self.kinds)
         if self.risk_kinds:
             points = points.filter(symbol__risk_kind__in=self.risk_kinds)
 
-        context['points'] = [[p.symbol.name, p.location.coords[1], p.location.coords[0], p.id] for p in points]
+        context['maps'] = ParticipatoryMap.objects.all()
+        context['points'] = [[p.symbol.name, p.location.coords[1], p.location.coords[0], p.radius, colors[p.symbol.kind]] for p in points]
         context['api_key'] = settings.MAP_WIDGETS['GOOGLE_MAP_API_KEY']
         context['symbols'] = [[s.name, s.icon.url] for s in Symbol.objects.all()]
 
